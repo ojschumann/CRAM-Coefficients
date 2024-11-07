@@ -39,7 +39,7 @@ def fmt(z):
   if isinstance(z, mpmath.mpf):
     return _fmt(z)
   else:
-    return (" " if z.real>0 else "") + _fmt(z.real) + (" + " if z.imag >=0 else " - ") + _fmt(abs(z.imag))
+    return (" " if z.real>0 else "") + _fmt(z.real) + (" + " if z.imag >=0 else " - ") + _fmt(abs(z.imag)) +'j'
 
 
 
