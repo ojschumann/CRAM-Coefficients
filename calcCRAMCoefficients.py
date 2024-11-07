@@ -9,20 +9,27 @@ mpmath.mp.prec = 1024
 def findRoots(p, z=1j):
   '''simple root finding with newton algorithm'''
   roots = []
-  while p.degree() > 0:
+  q = Polynomial(1)
+  while q.degree() < p.degree():
     dp = p.deriv()
+    dq = q.deriv()
+    f = lambda z: p(z)/q(z)
+    df = lambda z: (dp(z) - p(z)*dq(z)/q(z)) / q(z)
     while True:
-      dz = -p(z)/dp(z)
+      dz = -f(z)/df(z)
       z += dz
       if abs(dz) < mpmath.mpf('1e-250'):
         break
 
-    roots.append(z)
     if abs(z.imag) < mpmath.mpf('1e-250'):
       # real root
-      p = p // Polynomial((-z, 1))
+      q = q * Polynomial((-z.real, 1))
+      roots.append(mpmath.mpc(z.real, 0))
     else:
-      p = p // (Polynomial((-z, 1)) * Polynomial((-z.conjugate(), 1)))
+      q = q * (Polynomial((-z, 1)) * Polynomial((-z.conjugate(), 1)))
+      roots.append(z)
+    #print("found root", len(roots), q.degree(), p.degree(), z)
+    z += 1j
   return roots
 
 
