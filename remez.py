@@ -90,7 +90,7 @@ class Remez:
 
 
   def D2score(self, t):
-    '''first derivative of score(t)'''
+    '''second derivative of score(t)'''
     x = self.phi(t)
 
     P = self.p
